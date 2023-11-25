@@ -1,0 +1,39 @@
+---------------purpose------------
+ Ce projet a pour but de vous faire développer une fonction qui 
+ renvoie une ligne lue depuis un descripteur de fichier.
+
+---------------valeurs de retour-------------
+ * ligne lue plus rien a lire 
+ * ou errer : NULL
+
+--------------variable static----------------
+ * variable qui va garder sa valeur entre deux appels d'une fonction
+   dans la stach 
+----------------Notions utiles---------------
+  * read()
+  * variable statique
+  * open() 
+----------------------read------------------------  
+ * ssize_t read(int fd, void *buf, size_t count);
+ * fd: The file descriptor from which to read data.
+ * buf: A buffer to store the data read from the file descriptor.
+ * count: The maximum number of bytes to read.
+ * buffer : an array which you can stock the chars
+-----------------------fd--------------------------------
+ * fd : un nombre lie a un fichier specifique 
+ * terminal : est juste un ficher
+
+ ----------------------Commande ps--------------------------------
+  * ps = pour avoir tous les programmes en cours d'execution
+  * lsof = montre tous les fichiers utilises par un processus specifique 
+  * /dev = mean device == peripherique
+
+  ---------------------------------------------------
+  // read from terminal 
+  // char buf[15];
+  //  ssize_t cr =read(0, buf, 15);
+  //  if (cr == -1)
+   //    return (-1);
+   // buf[cr] = '\0';
+   // int fd = open("filek.txt",O_RDWR | O_CREAT);
+   // printf("the input o data was: %s\n",buf);
