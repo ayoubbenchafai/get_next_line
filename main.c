@@ -1,79 +1,123 @@
 #include <stdio.h>
-#include <unistd.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
-#define BUFFER_SIZE 15
 
-char	*ft_strchr(const char *s, int c)
-{
-	while (*s != '\0')
-	{
-		if (*s == (unsigned char)c)
-			return ((char *)(s));
-		s++;
-	}
-	if ((unsigned char)c == '\0')
-		return ((char *)(s));
-	return (NULL);
-}
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 1
+#endif
 
-size_t ft_strlen(char *str)
+int check_line(char *s, char c)
 {
-    int len  =0;
-    while(*str)
+    while(*s)
     {
-        str++;
-        len++;
+        if(*s == c)
+            return (1);
+        s++;    
     }
-    return (len);
+    return (0);
 }
 
-char	*ft_strncat(char *dest, char *src,size_t nb)
+// line = get_line(stash)
+char *get_line(char *s)
+{
+    int i;
+    int j;
+    char *str;
+    i = 0;
+    j = 0;
+    while(s[i] != '\0' && s[i] != '\n')
+        i++;
+    str = malloc(i + 2);
+    if(!str)
+        return (NULL);
+    while(j < i)
+    {
+        str[j] = s[j];
+        //free(&s[j]);
+        j++;
+    }
+    if(s[i] == '\n')
+    {
+        str[i] = s[i];
+        //free(&s[j]);
+        i++;
+    }
+    str[i]  = '\0';   
+    return (str);    
+}
+
+
+// char *ft_save_into_stash(char *buf,int fd)
+// {
+//     char *str;
+//     int chars_read;
+
+//     str = malloc(BUFFER_SIZE + 1);
+//     if(!str)
+//         return (NULL);
+//     int cr = 1;
+//     while()    
+// }
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t	i;
-	size_t	size_dest;
+	int		j;
+	size_t	size;
+	char	*ptr;
 
 	i = 0;
-	size_dest = ft_strlen(dest);
-	while (src[i] != '\0' && i < nb)
-		dest[size_dest++] = src[i++];
-	dest[size_dest] = '\0';
-	return (dest);
+	j = 0;
+	if (!s1 || !s2)
+		return (NULL);
+	size = strlen(s1) + strlen(s2);
+	ptr = (char *)malloc(sizeof(char) * (size + 1));
+	if (ptr == NULL)
+		return (NULL);
+	while (i < strlen(s1))
+	{
+		ptr[i] = s1[i];
+		i++;
+	}
+	while (i < size)
+		ptr[i++] = s2[j++];
+	ptr[i] = '\0';
+	return (ptr);
 }
 
-int main (void)
+int main() 
 {
     int fd;
     int cr;
-    char buf[BUFFER_SIZE];
-    static char *str;
+    static char *str = NULL;
+    char *buf;
     char *line;
-    int i = 0;
+
+    if (fd < 0 || BUFFER_SIZE <= 0)
+        return (-1);
+    buf =  malloc(sizeof(char) * (BUFFER_SIZE + 1));
+    if(!buf)
+        return (-1);
 
     fd = open("file.txt", O_RDONLY);
-    while((cr = read(fd, buf, 15)))
+    int i = 0;
+    while((cr = read(fd, buf, BUFFER_SIZE)))
     {
         if(cr == -1)
         {
+            free(buf);
             return (-1);
-            break;
         }
+        buf[cr] = '\0';
         str = malloc(cr + 1);
-          if(!str)
-            return -1;
-        if(!ft_strchr(buf, '\n'))
-        {
-          i++;
-          str = strncat(str, buf,cr);
-          line = malloc((BUFFER_SIZE) + 1);
-          line = strcpy(line,str);
-         
-        }
-        else break;
-        free(str);
+        str = strcat(str, buf);
+        memset(buf, 0, cr);
+            printf("%s",str);           
+
+
     }
-    printf("%s\n",line);
-    //printf("len  = %zu",strlen(line));
-    return (0);
+    free(buf);
+    //printf("|%s\n",str);           
+    return 0;
 }
