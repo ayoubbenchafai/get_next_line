@@ -1,24 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aben-cha <aben-cha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/21 22:12:47 by aben-cha          #+#    #+#             */
-/*   Updated: 2023/11/30 16:57:53 by aben-cha         ###   ########.fr       */
+/*   Created: 2023/11/21 22:12:52 by aben-cha          #+#    #+#             */
+/*   Updated: 2023/11/30 22:40:19 by aben-cha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
 
-#ifndef GET_NEXT_LINE_H
-#define GET_NEXT_LINE_H
-
-#include <unistd.h>
-#include <fcntl.h>
-
-char *get_next_line(int fd);
-
-
-
-#endif

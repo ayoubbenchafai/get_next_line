@@ -1,168 +1,160 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aben-cha <aben-cha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/21 22:12:50 by aben-cha          #+#    #+#             */
-/*   Updated: 2023/11/25 19:43:48 by aben-cha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "get_next_line.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
+#include <fcntl.h>
 
-#define BUFFER_SIZE 15
 
-char	*ft_strchr(const char *s, int c)
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 3
+#endif
+
+
+int check_line(char *s, char c)
 {
-	while (*s != '\0')
-	{
-		if (*s == (unsigned char)c)
-			return ((char *)(s));
-		s++;
-	}
-	if ((unsigned char)c == '\0')
-		return ((char *)(s));
-	return (NULL);
+    while(*s)
+    {
+        if(*s == c)
+            return (1);
+        s++;
+    }
+    return (0);
 }
-char *get_next_line(int fd)
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	size_t	i;
+	int		j;
+	size_t	size;
+	char	*ptr;
+
+	i = 0;
+	j = 0;
+	if (!s1)
+		return (strdup(s2));
+	size = strlen(s1) + strlen(s2);
+	ptr = (char *)malloc(sizeof(char) * (size + 1));
+	if (ptr == NULL)
+		return (NULL);
+	while (i < strlen(s1))
+	{
+		ptr[i] = s1[i];
+		i++;
+	}
+	while (i < size)
+		ptr[i++] = s2[j++];
+	ptr[i] = '\0';
+	return (ptr);
+}
+
+char *get_line(char *s)
+{
+    int i;
+    int j;
+    char *str;
+    i = 0;
+    j = 0;
+    while(s[i] != '\0' && s[i] != '\n')
+        i++;
+    str = malloc(i + 2);
+    if(!str)
+        return (NULL);
+    while(j < i)
+    {
+        str[j] = s[j];
+        j++;
+    }
+    if(s[i] == '\n')
+    {
+        str[i] = s[i];
+        i++;
+    }
+    str[i]  = '\0';   
+    return (str);    
+}
+
+char *ft_set_pointer(char *str)
+{
+    int i;
+    int l;
+    int k;
+    char *rest;
+    
+    i = 0;
+    l = 0; 
+    k = 0;
+    while(str[i] && str[i] != '\n')
+        i++;
+    i += (str[i] == '\n');
+    while(str[l + i])
+        l++;
+    rest = malloc((l + 1) * sizeof(char));
+    if(!rest)
+        return (NULL);
+   
+    while(str[k])
+        rest[k] = str[i];
+    rest[k] = '\0';
+    free(str);
+    str = rest;
+    return (str);
+}
+
+
+char *ft_read_save(int fd, char *buf)
 {
     int cr;
-    char buf[BUFFER_SIZE];
-    static char *str;
-    char *line;
-    int i = 0;
-
-    fd = open("file.txt", O_RDONLY);
-    while((cr = read(fd, buf, 15)))
+    char *str;
+    buf = malloc(BUFFER_SIZE + 1);
+    if(!buf)
+        return (NULL);
+    while((cr = read(fd, buf, BUFFER_SIZE)))
     {
         if(cr == -1)
         {
+            free(buf);
             return (NULL);
+        }
+        buf[cr] = '\0';
+        str = ft_strjoin(str, buf);
+        if(check_line(buf, '\n'))
             break;
-        }
-        str = malloc(cr + 1);
-          if(!str)
-            return NULL;
-        if(!ft_strchr(buf, '\n'))
-        {
-          i++;
-          str = strncat(str, buf,cr);
-          line = malloc((BUFFER_SIZE) + 1);
-          line = strcpy(line,str);
-         
-        }
-        else break;
-        free(str);
-        bzero(buf,BUFFER_SIZE);
     }
-    return (line);
+    free(buf);
+    return (str); 
 }
 
+
+char *get_next_line(int fd)
+{
+    char *line;
+    static char *str;
+
+    if(fd < 0 || BUFFER_SIZE <= 0)
+        return (NULL);
+    str = ft_read_save(fd,str);
+    if(!str)
+        return (NULL);
+    line = get_line(str);
+    // str = ft_set_pointer(str);
+    return (line);   
+}
 int main()
 {
-    int fd = open("file.txt", O_RDONLY);
+    int fd = 0;
+
+    fd = open("file.txt", O_RDONLY);
+    if(fd < 0)
+        return (-1);
     char *s = get_next_line(fd);
 
     printf("%s",s);
-    printf("\nlen de line =%zu",strlen(s));
-}
-// int main (void)
-// {
-//     int fd;
-//     int cr;
-//     char buf[15];
-//     static char *stash;
-//     fd = open("file.txt", O_RDONLY);
-//     if(fd < 0)
-//        return (-1);
-       
-//     cr = read(fd,buf,10);
-//     if(cr < 0)
-//        return (-1);
-//     stash = malloc(cr + 1);
-//     stash = buf;
-//     stash[cr] = '\0';
-//     printf("%s",stash);
-//     //-------
-//    // memset(buf, 0,cr);
-//     if( BUFFER_SIZE < cr)
-//      bzero(buf, cr);
-//     cr = read(fd,buf,10);
-//     if(cr < 0)
-//        return (-1);
-//     stash = malloc(cr + 1);
-//     stash = buf;
-//     stash[cr] = '\0';
-//     printf("%s",stash);
 
-//     cr = read(fd,buf,10);
-//     if(cr < 0)
-//        return (-1);
-//     stash = malloc(cr + 1);
-//     stash = buf;
-//     stash[cr] = '\0';
-//     printf("%s",stash);
-//     //--------
-//     //  cr = read(fd,buf,10);
-//     // stash = malloc(cr + 1);
-//     // stash = buf;
-//     // stash[cr] = '\0';
-//     // printf("%s\n",stash);
-     
+    free(s);
+    // s= NULL;
+    // s = get_next_line(fd);
 
-//     // if(size_buffer < rc)
-//       //bzero(buf)
-//     return (0);
-// }
-
-
-/*
-
-int main (void)
-{
-    int fd;
-    int cr;
-    char buf[BUFFER_SIZE];
-    static char *str;
-    char *line;
-    int i = 0;
-    fd = open("file.txt", O_RDONLY);
-
-    while((cr = read(fd, buf, 15)))
-    {
-        if(cr == -1)
-        {
-            return (-1);
-            break;
-        }
-        str = malloc(cr + 1);
-          if(!str)
-            return -1;
-        if(ft_strchr(buf, '\n') == NULL)
-        {
-          i++;
-          str = strncat(str, buf,cr);
-
-          
-        //printf("%s",str);
-        //printf("line : %zu",ft_strlen(str));
-        }
-        else break;
-
-        
-         line = malloc((BUFFER_SIZE) + 1);
-         line = strncat(str, buf,BUFFER_SIZE);
-
-
-    }
+    // printf("%s",s);
     
     return (0);
 }
-*/
-
-

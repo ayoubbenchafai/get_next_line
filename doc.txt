@@ -37,3 +37,6 @@
    // buf[cr] = '\0';
    // int fd = open("filek.txt",O_RDWR | O_CREAT);
    // printf("the input o data was: %s\n",buf);
+
+   --------------------leaks--------------
+   leaks a.out
