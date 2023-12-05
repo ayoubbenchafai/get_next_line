@@ -24,11 +24,11 @@
 #endif
 
 
-int ft_check_line(const char *s, char c);
+int     ft_check_line(const char *s, char c);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s);
-char *ft_strjoin(char const *s1, char const *s2);
-char *get_next_line(int fd);
+char    *ft_strjoin(char const *s1, char const *s2);
+char    *get_next_line(int fd);
 
 
 #endif
