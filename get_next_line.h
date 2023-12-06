@@ -6,7 +6,7 @@
 /*   By: aben-cha <aben-cha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 22:12:47 by aben-cha          #+#    #+#             */
-/*   Updated: 2023/11/30 22:00:00 by aben-cha         ###   ########.fr       */
+/*   Updated: 2023/12/06 22:32:44 by aben-cha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 
 #ifndef BUFFER_SIZE
-#define BUFFER_SIZE 5
+#define BUFFER_SIZE 42
 #endif
 
 

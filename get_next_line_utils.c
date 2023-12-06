@@ -6,7 +6,7 @@
 /*   By: aben-cha <aben-cha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 22:12:52 by aben-cha          #+#    #+#             */
-/*   Updated: 2023/11/30 22:40:19 by aben-cha         ###   ########.fr       */
+/*   Updated: 2023/12/06 21:56:27 by aben-cha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ char	*ft_strdup(const char *s)
 
 char *ft_strjoin(char const *s1, char const *s2)
 {
-    int i;
-    int j;
-    int size;
+    size_t i;
+    size_t j;
+    size_t size;
     char *tab;
 
     if(!s1)
