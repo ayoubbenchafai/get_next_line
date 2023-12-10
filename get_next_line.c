@@ -6,7 +6,7 @@
 /*   By: aben-cha <aben-cha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 21:58:32 by aben-cha          #+#    #+#             */
-/*   Updated: 2023/12/10 18:37:43 by aben-cha         ###   ########.fr       */
+/*   Updated: 2023/12/10 19:22:49 by aben-cha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,6 @@ static char *ft_get_line(char *s)
     i += (s[i] == '\n');
     line = malloc(i + 1);
     if(!line)
-    {
-        
-    }
      return (free(line), free(s), NULL);
     int j = 0;
     while(s[j] && s[j] != '\n')
