@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aben-cha <aben-cha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/21 22:12:47 by aben-cha          #+#    #+#             */
-/*   Updated: 2023/12/10 18:22:22 by aben-cha         ###   ########.fr       */
+/*   Created: 2023/12/10 17:33:00 by aben-cha          #+#    #+#             */
+/*   Updated: 2023/12/10 17:37:29 by aben-cha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#ifndef GET_NEXT_LINE_H
-#define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+#define GET_NEXT_LINE_BONUS_H
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -21,7 +20,7 @@
 
 
 #ifndef BUFFER_SIZE
-#define BUFFER_SIZE  INT_MAX
+#define BUFFER_SIZE  2147483646
 
 #endif
 

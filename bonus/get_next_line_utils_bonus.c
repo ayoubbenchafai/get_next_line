@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aben-cha <aben-cha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/21 22:12:52 by aben-cha          #+#    #+#             */
-/*   Updated: 2023/12/10 17:12:46 by aben-cha         ###   ########.fr       */
+/*   Created: 2023/12/10 17:32:57 by aben-cha          #+#    #+#             */
+/*   Updated: 2023/12/10 17:38:39 by aben-cha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int ft_check_line(const char *s, char c)
 {

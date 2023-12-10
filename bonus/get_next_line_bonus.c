@@ -1,30 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aben-cha <aben-cha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/30 21:58:32 by aben-cha          #+#    #+#             */
-/*   Updated: 2023/12/10 18:37:43 by aben-cha         ###   ########.fr       */
+/*   Created: 2023/12/10 17:32:21 by aben-cha          #+#    #+#             */
+/*   Updated: 2023/12/10 18:00:09 by aben-cha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-
-
-#include <stdio.h>
-
-// static int ft_get_len(const char *s)
-// {
-//     int i;
-    
-//     i = 0;
-//     while(s[i] && s[i] != '\n')
-//         i++;
-//     i += (s[i] == '\n');
-//     return (i);
-// }
+#include "get_next_line_bonus.h"
 
 static char *ft_get_line(char *s)
 {
@@ -38,10 +24,7 @@ static char *ft_get_line(char *s)
     i += (s[i] == '\n');
     line = malloc(i + 1);
     if(!line)
-    {
-        
-    }
-     return (free(line), free(s), NULL);
+     return (free(line),NULL);
     int j = 0;
     while(s[j] && s[j] != '\n')
     {
@@ -57,9 +40,7 @@ static char *ft_read(char *s, int fd)
 {
     int cr;
     char *buf;
-    char *p;
-    
-    p = NULL;
+    char *p = NULL;
     buf = malloc(BUFFER_SIZE + 1);
     if(!buf)
         return (free(s),NULL);
@@ -67,14 +48,14 @@ static char *ft_read(char *s, int fd)
     while(cr)
     {
         if(cr == -1)
-            return (free(buf), free(s), NULL);
+            return (free(buf), NULL);
         buf[cr] = '\0';
         p = s;
         s = ft_strjoin(s, buf);
         free(p);
         p = NULL;
         if(!s)
-            return (free(buf), free(s), NULL);
+            return (free(buf), NULL);
         if(ft_check_line(s,'\n'))
             break;
         cr = read(fd, buf, BUFFER_SIZE);
@@ -97,9 +78,8 @@ static char *ft_set_pointer(char *s)
             return (free(s), NULL);        
     j = ft_strlen(s) - i;
     res = malloc(j + 1);
-    //problem in s
     if(!res)
-        return (free(s), NULL);
+        return (NULL);
     j = 0;
     while(s[i])
         res[j++] = s[i++];
@@ -107,29 +87,21 @@ static char *ft_set_pointer(char *s)
     free(s);
     return (res);
 }
+
 char    *get_next_line(int fd)
 {
     char *line;
-    static char *s;
-        
+    static char *s[3];
     if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
     {
-        if (s) // do not free NULL 
-            free(s);
-        s = NULL;
+        free(s);
+        s[fd] = NULL;
         return NULL;
     }
-    s = ft_read(s, fd);
-    if(!s)  
+    s[fd] = ft_read(s[fd], fd);
+    if(!s[fd])  
         return (NULL);
-    line = ft_get_line(s);
-    if (!line)
-        return (s = NULL, NULL);
-    s = ft_set_pointer(s);
+    line = ft_get_line(s[fd]);
+    s[fd] = ft_set_pointer(s[fd]);
     return (line);    
 }
-
-// what is offset
-// static variable storage
-// how to delete a file descriptor
-// memory leak : fuite de memoire 
