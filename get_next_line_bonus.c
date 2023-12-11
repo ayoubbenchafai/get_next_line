@@ -6,7 +6,7 @@
 /*   By: aben-cha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 22:38:35 by aben-cha          #+#    #+#             */
-/*   Updated: 2023/12/11 22:50:46 by aben-cha         ###   ########.fr       */
+/*   Updated: 2023/12/11 23:41:41 by aben-cha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	*ft_read(char *s, int fd)
 	char	*buf;
 	int		cr;
 
-	buf = malloc(BUFFER_SIZE + 1);
+	buf = malloc((size_t)BUFFER_SIZE + 1);
 	if (!buf)
 		return (free(s), NULL);
 	cr = read(fd, buf, BUFFER_SIZE);
