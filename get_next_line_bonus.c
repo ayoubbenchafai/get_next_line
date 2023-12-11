@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aben-cha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/11 11:42:44 by aben-cha          #+#    #+#             */
-/*   Updated: 2023/12/11 12:41:30 by aben-cha         ###   ########.fr       */
+/*   Created: 2023/12/11 22:38:35 by aben-cha          #+#    #+#             */
+/*   Updated: 2023/12/11 22:50:46 by aben-cha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*ft_free(char *s, const char *buf)
 {
@@ -99,21 +99,23 @@ static char	*ft_set_pointer(char *s)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*s;
+	static char	*s[OPEN_MAX];
 
+	if (fd > OPEN_MAX)
+		return (NULL);
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 	{
-		if (s)
-			free(s);
-		s = NULL;
+		if (s[fd])
+			free(s[fd]);
+		s[fd] = NULL;
 		return (NULL);
 	}
-	s = ft_read(s, fd);
-	if (!s)
+	s[fd] = ft_read(s[fd], fd);
+	if (!s[fd])
 		return (NULL);
-	line = ft_get_line(s);
+	line = ft_get_line(s[fd]);
 	if (!line)
-		return (s = NULL, NULL);
-	s = ft_set_pointer(s);
+		return (s[fd] = NULL, NULL);
+	s[fd] = ft_set_pointer(s[fd]);
 	return (line);
 }
